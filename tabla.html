@@ -22,26 +22,42 @@ body{background:#050816;color:white;display:flex;}
 .avatar{width:45px;height:45px;border-radius:50%;background:#00f5a0;}
 .section-title{margin-bottom:20px;font-size:26px;}
 
-.tabla-container{background:#111827;border:1px solid #1f2937;border-radius:20px;overflow:hidden;}
+/* TABS */
+.tabs{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap;}
+.tab{padding:10px 20px;border-radius:12px;border:1px solid #1f2937;background:#111827;color:#9ca3af;cursor:pointer;font-size:14px;font-weight:600;transition:0.3s;}
+.tab:hover{border-color:#00f5a0;color:#00f5a0;}
+.tab.active{background:#00f5a015;border-color:#00f5a0;color:#00f5a0;}
+
+/* TABLA */
+.tabla-container{background:#111827;border:1px solid #1f2937;border-radius:20px;overflow:hidden;display:none;}
+.tabla-container.active{display:block;}
+.liga-header{padding:20px 25px;border-bottom:1px solid #1f2937;display:flex;align-items:center;gap:10px;}
+.liga-header h3{font-size:18px;font-weight:600;}
+
 table{width:100%;border-collapse:collapse;}
 thead{background:#0b1020;}
-th{padding:16px 20px;text-align:left;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
-td{padding:14px 20px;border-top:1px solid #1f2937;font-size:15px;}
+th{padding:14px 16px;text-align:left;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
+th.center,td.center{text-align:center;}
+td{padding:12px 16px;border-top:1px solid #1f2937;font-size:14px;}
 tr:hover td{background:#0b1220;}
-.pos{color:#9ca3af;font-weight:600;width:40px;}
+.pos{color:#9ca3af;font-weight:600;width:35px;text-align:center;}
+.top4{color:#60a5fa;}
+.top1{color:#00f5a0;}
+.relegado{color:#f87171;}
 .team-name{font-weight:600;}
-.pts{color:#00f5a0;font-weight:700;font-size:17px;}
-.goles{color:#9ca3af;}
+.pts{color:#00f5a0;font-weight:700;font-size:16px;text-align:center;}
+.num{text-align:center;color:#9ca3af;}
 
-.loading{color:#00f5a0;font-size:18px;padding:20px;}
-.error-msg{color:#ff6b6b;padding:20px;}
+.loading{color:#00f5a0;font-size:16px;padding:30px;text-align:center;}
+.error-msg{color:#ff6b6b;padding:20px;text-align:center;}
 
 @media(max-width:768px){
   .sidebar{width:100px;padding:15px;}
   .logo-text,.menu-title,.sidebar a span{display:none;}
-  .main{margin-left:100px;padding:20px;}
-  .search{width:180px;}
-  th,td{padding:10px;}
+  .main{margin-left:100px;padding:15px;}
+  .search{width:160px;}
+  th,td{padding:8px 10px;font-size:12px;}
+  .tab{padding:8px 14px;font-size:13px;}
 }
 </style>
 </head>
@@ -69,63 +85,107 @@ tr:hover td{background:#0b1220;}
     <div class="avatar"></div>
   </div>
 
-  <h2 class="section-title">📊 Tabla de Posiciones — La Liga</h2>
+  <h2 class="section-title">📊 Tablas de Posiciones</h2>
 
-  <div class="tabla-container">
-    <div id="tabla"><p class="loading">⏳ Cargando tabla...</p></div>
+  <div class="tabs" id="tabs">
+    <div class="loading">⏳ Cargando ligas...</div>
   </div>
+
+  <div id="tablas"></div>
 </div>
 
 <script>
-async function cargarTabla(){
-  const contenedor = document.getElementById("tabla");
+async function cargarTablas(){
+  const tabsEl = document.getElementById("tabs");
+  const tablasEl = document.getElementById("tablas");
+
   try{
     const response = await fetch("/api/tabla");
     if(!response.ok) throw new Error(`Error ${response.status}`);
     const data = await response.json();
 
-    const equipos = data.standings[0].table;
+    tabsEl.innerHTML = "";
+    tablasEl.innerHTML = "";
 
-    let html = `
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Equipo</th>
-            <th>PJ</th>
-            <th>G</th>
-            <th>E</th>
-            <th>P</th>
-            <th>GF</th>
-            <th>Pts</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
+    data.ligas.forEach((liga, i) => {
 
-    equipos.forEach(t => {
-      html += `
-        <tr>
-          <td class="pos">${t.position}</td>
-          <td class="team-name">${t.team.name}</td>
-          <td>${t.playedGames}</td>
-          <td>${t.won}</td>
-          <td>${t.draw}</td>
-          <td>${t.lost}</td>
-          <td class="goles">${t.goalsFor}</td>
-          <td class="pts">${t.points}</td>
-        </tr>
-      `;
+      // Tab
+      const tab = document.createElement("div");
+      tab.className = "tab" + (i === 0 ? " active" : "");
+      tab.textContent = `${liga.pais} ${liga.nombre}`;
+      tab.dataset.index = i;
+      tab.onclick = () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tabla-container").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(`liga-${i}`).classList.add("active");
+      };
+      tabsEl.appendChild(tab);
+
+      // Tabla
+      const container = document.createElement("div");
+      container.className = "tabla-container" + (i === 0 ? " active" : "");
+      container.id = `liga-${i}`;
+
+      if(!liga.tabla || liga.tabla.length === 0){
+        container.innerHTML = `
+          <div class="liga-header"><h3>${liga.pais} ${liga.nombre}</h3></div>
+          <p class="error-msg">No se pudo cargar esta liga.</p>
+        `;
+      } else {
+        let filas = liga.tabla.map((t, idx) => {
+          let posClass = "";
+          if(idx === 0) posClass = "top1";
+          else if(idx < 4) posClass = "top4";
+          else if(idx >= liga.tabla.length - 3) posClass = "relegado";
+
+          return `
+            <tr>
+              <td class="pos ${posClass}">${t.position}</td>
+              <td class="team-name">${t.team.name}</td>
+              <td class="num">${t.playedGames}</td>
+              <td class="num">${t.won}</td>
+              <td class="num">${t.draw}</td>
+              <td class="num">${t.lost}</td>
+              <td class="num">${t.goalsFor}:${t.goalsAgainst}</td>
+              <td class="num">${t.goalDifference > 0 ? '+' : ''}${t.goalDifference}</td>
+              <td class="pts">${t.points}</td>
+            </tr>
+          `;
+        }).join("");
+
+        container.innerHTML = `
+          <div class="liga-header">
+            <h3>${liga.pais} ${liga.nombre}</h3>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th class="center">#</th>
+                <th>Equipo</th>
+                <th class="center">PJ</th>
+                <th class="center">G</th>
+                <th class="center">E</th>
+                <th class="center">P</th>
+                <th class="center">Goles</th>
+                <th class="center">DG</th>
+                <th class="center">Pts</th>
+              </tr>
+            </thead>
+            <tbody>${filas}</tbody>
+          </table>
+        `;
+      }
+
+      tablasEl.appendChild(container);
     });
 
-    html += `</tbody></table>`;
-    contenedor.innerHTML = html;
-
   }catch(error){
-    contenedor.innerHTML = `<p class="error-msg">❌ Error cargando tabla: ${error.message}</p>`;
+    tabsEl.innerHTML = `<p class="error-msg">❌ Error: ${error.message}</p>`;
   }
 }
-cargarTabla();
+
+cargarTablas();
 </script>
 
 </body>
