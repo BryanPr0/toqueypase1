@@ -1,32 +1,493 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Historia</title>
-<link rel="stylesheet" href="style.css">
+
+<title>Historia del Fútbol | Toque & Pase</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+height:100vh;
+background:#0b1020;
+border-right:1px solid #1f2937;
+padding:25px;
+position:fixed;
+overflow-y:auto;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+}
+
+.logo-box{
+width:50px;
+height:50px;
+background:#00f5a0;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+color:black;
+font-weight:bold;
+}
+
+.logo-text h2{
+font-size:28px;
+color:#00f5a0;
+}
+
+.logo-text p{
+font-size:12px;
+color:#94a3b8;
+}
+
+.menu-title{
+margin:30px 0 15px;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:1px;
+color:#6b7280;
+}
+
+.sidebar a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px;
+border-radius:12px;
+text-decoration:none;
+color:#d1d5db;
+transition:0.3s;
+margin-bottom:8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#00f5a015;
+color:#00f5a0;
+}
+
+/* MAIN */
+
+.main{
+margin-left:260px;
+width:100%;
+padding:30px;
+}
+
+/* HERO */
+
+.hero{
+height:380px;
+border-radius:30px;
+overflow:hidden;
+position:relative;
+margin-bottom:35px;
+}
+
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(45%);
+}
+
+.hero-content{
+position:absolute;
+bottom:40px;
+left:40px;
+max-width:650px;
+}
+
+.hero-content h1{
+font-size:55px;
+margin-bottom:15px;
+line-height:1.1;
+}
+
+.hero-content p{
+font-size:18px;
+color:#d1d5db;
+line-height:1.6;
+}
+
+/* TIMELINE */
+
+.timeline-title{
+font-size:30px;
+margin-bottom:25px;
+}
+
+.timeline{
+position:relative;
+padding-left:40px;
+border-left:3px solid #00f5a0;
+}
+
+.timeline-item{
+margin-bottom:40px;
+position:relative;
+}
+
+.timeline-item::before{
+content:'';
+position:absolute;
+left:-52px;
+top:5px;
+width:20px;
+height:20px;
+background:#00f5a0;
+border-radius:50%;
+box-shadow:0 0 15px #00f5a0;
+}
+
+.timeline-item h2{
+font-size:28px;
+margin-bottom:12px;
+}
+
+.timeline-item p{
+color:#bfc7d5;
+line-height:1.8;
+font-size:16px;
+}
+
+/* STATS */
+
+.stats{
+margin-top:50px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.stat-card{
+background:#111827;
+border:1px solid #1f2937;
+border-radius:20px;
+padding:30px;
+text-align:center;
+transition:0.3s;
+}
+
+.stat-card:hover{
+transform:translateY(-5px);
+border-color:#00f5a0;
+}
+
+.stat-card h2{
+font-size:50px;
+color:#00f5a0;
+margin-bottom:10px;
+}
+
+.stat-card p{
+color:#9ca3af;
+font-size:17px;
+}
+
+/* QUOTE */
+
+.quote{
+margin-top:50px;
+background:linear-gradient(135deg,#111827,#0f172a);
+border-radius:25px;
+padding:40px;
+border:1px solid #1f2937;
+}
+
+.quote h2{
+font-size:32px;
+margin-bottom:20px;
+}
+
+.quote p{
+font-size:20px;
+line-height:1.8;
+color:#d1d5db;
+font-style:italic;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.hero-content h1{
+font-size:40px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+width:100px;
+padding:15px;
+}
+
+.logo-text,
+.menu-title,
+.sidebar a span{
+display:none;
+}
+
+.main{
+margin-left:100px;
+padding:20px;
+}
+
+.hero{
+height:300px;
+}
+
+.hero-content{
+left:20px;
+right:20px;
+bottom:20px;
+}
+
+.hero-content h1{
+font-size:32px;
+}
+
+.hero-content p{
+font-size:15px;
+}
+
+.timeline-item h2{
+font-size:22px;
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
+<!-- SIDEBAR -->
 
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
+<div class="sidebar">
+
+<div class="logo">
+
+<div class="logo-box">
+⚽
 </div>
+
+<div class="logo-text">
+<h2>Toque & Pase</h2>
+<p>Solo fútbol</p>
+</div>
+
+</div>
+
+<div class="menu-title">
+Principal
+</div>
+
+<a href="index.html">
+🏠 <span>Inicio</span>
+</a>
+
+<a href="noticias.html">
+📰 <span>Noticias</span>
+</a>
+
+<a href="partidos.html">
+📅 <span>Partidos</span>
+</a>
+
+<a href="tabla.html">
+📊 <span>Tabla</span>
+</a>
+
+<a href="equipos.html">
+👥 <span>Equipos</span>
+</a>
+
+<a href="jugadores.html">
+⭐ <span>Jugadores</span>
+</a>
+
+<a class="active" href="historia.html">
+📖 <span>Historia</span>
+</a>
+
+<a href="comunidad.html">
+💬 <span>Comunidad</span>
+</a>
+
+</div>
+
+<!-- MAIN -->
 
 <div class="main">
 
-<h1>Historia del Fútbol</h1>
+<!-- HERO -->
 
-<div class="card">
-<p>El fútbol moderno nació en Inglaterra en el siglo XIX y actualmente es el deporte más popular del mundo.</p>
+<div class="hero">
+
+<img src="https://images.unsplash.com/photo-1570498839593-e565b39455fc?q=80&w=1400&auto=format&fit=crop" alt="Historia del fútbol">
+
+<div class="hero-content">
+
+<h1>
+La Historia
+del Fútbol
+</h1>
+
+<p>
+Desde sus orígenes hasta convertirse en el deporte más popular del planeta,
+el fútbol ha unido culturas, países y generaciones a través de la pasión.
+</p>
+
+</div>
+
+</div>
+
+<!-- TIMELINE -->
+
+<h2 class="timeline-title">
+📜 Línea del Tiempo
+</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<h2>1863 — Nace el fútbol moderno</h2>
+
+<p>
+En Inglaterra se fundó la Football Association, estableciendo
+las primeras reglas oficiales del fútbol moderno y separándolo del rugby.
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h2>1930 — Primer Mundial</h2>
+
+<p>
+Uruguay organizó la primera Copa Mundial de la FIFA.
+La selección uruguaya se coronó campeona frente a Argentina.
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h2>1955 — Champions League</h2>
+
+<p>
+Se creó la Copa de Europa, actualmente conocida como UEFA Champions League,
+el torneo de clubes más importante del mundo.
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h2>2000 — El fútbol global</h2>
+
+<p>
+El crecimiento de internet y la televisión internacional convirtió
+al fútbol en un espectáculo global seguido por miles de millones de personas.
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h2>2026 — Nueva era digital</h2>
+
+<p>
+Las plataformas deportivas en tiempo real revolucionan la experiencia
+de los aficionados mediante estadísticas, IA y contenido interactivo.
+</p>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<h2>5B+</h2>
+
+<p>Fanáticos alrededor del mundo</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>211</h2>
+
+<p>Federaciones afiliadas a FIFA</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>1930</h2>
+
+<p>Año del primer Mundial</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>100+</h2>
+
+<p>Años de historia profesional</p>
+
+</div>
+
+</div>
+
+<!-- QUOTE -->
+
+<div class="quote">
+
+<h2>
+⚽ El fútbol más que un deporte
+</h2>
+
+<p>
+“El fútbol no es solo ganar partidos. Es emoción, identidad,
+historia y pasión compartida por millones de personas alrededor del mundo.”
+</p>
+
 </div>
 
 </div>
