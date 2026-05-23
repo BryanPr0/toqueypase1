@@ -66,14 +66,6 @@ font-size:12px;
 color:#94a3b8;
 }
 
-.menu-title{
-margin:30px 0 15px;
-font-size:13px;
-letter-spacing:1px;
-text-transform:uppercase;
-color:#6b7280;
-}
-
 .sidebar a{
 display:flex;
 align-items:center;
@@ -100,26 +92,6 @@ width:100%;
 padding:30px;
 }
 
-/* TOPBAR */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.search{
-width:350px;
-padding:14px 18px;
-background:#111827;
-border:1px solid #1f2937;
-border-radius:14px;
-outline:none;
-color:white;
-font-size:15px;
-}
-
 /* HEADER */
 
 .header{
@@ -133,14 +105,13 @@ margin-bottom:10px;
 
 .header p{
 color:#94a3b8;
-font-size:17px;
 }
 
-/* NEWS GRID */
+/* GRID */
 
 .news-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
 gap:25px;
 }
 
@@ -155,13 +126,13 @@ transition:0.3s;
 }
 
 .news-card:hover{
-transform:translateY(-6px);
+transform:translateY(-5px);
 border-color:#00f5a0;
 }
 
 .news-card img{
 width:100%;
-height:230px;
+height:220px;
 object-fit:cover;
 }
 
@@ -209,40 +180,25 @@ color:black;
 text-decoration:none;
 border-radius:12px;
 font-weight:600;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
 }
 
 /* LOADING */
 
 .loading{
+height:300px;
 display:flex;
 justify-content:center;
 align-items:center;
-height:300px;
 font-size:22px;
 color:#00f5a0;
 }
-
-/* ERROR */
 
 .error{
 background:#111827;
 padding:30px;
 border-radius:20px;
 border:1px solid #ef4444;
-margin-top:20px;
 }
-
-.error h2{
-color:#ef4444;
-margin-bottom:15px;
-}
-
-/* RESPONSIVE */
 
 @media(max-width:768px){
 
@@ -252,7 +208,6 @@ padding:15px;
 }
 
 .logo-text,
-.menu-title,
 .sidebar a span{
 display:none;
 }
@@ -260,14 +215,6 @@ display:none;
 .main{
 margin-left:100px;
 padding:20px;
-}
-
-.search{
-width:180px;
-}
-
-.header h1{
-font-size:32px;
 }
 
 .news-grid{
@@ -297,10 +244,6 @@ grid-template-columns:1fr;
 <p>Noticias deportivas</p>
 </div>
 
-</div>
-
-<div class="menu-title">
-Principal
 </div>
 
 <a href="index.html">
@@ -341,16 +284,6 @@ Principal
 
 <div class="main">
 
-<!-- TOPBAR -->
-
-<div class="topbar">
-
-<input class="search" type="text" placeholder="Buscar noticias deportivas...">
-
-</div>
-
-<!-- HEADER -->
-
 <div class="header">
 
 <h1>
@@ -358,18 +291,14 @@ Principal
 </h1>
 
 <p>
-Últimas noticias deportivas actualizadas en tiempo real.
+Noticias deportivas internacionales en tiempo real.
 </p>
 
 </div>
 
-<!-- LOADING -->
-
 <div id="loading" class="loading">
 Cargando noticias...
 </div>
-
-<!-- NEWS -->
 
 <div id="news" class="news-grid"></div>
 
@@ -379,65 +308,51 @@ Cargando noticias...
 
 /*
 
-SI GNEWS FALLA:
-1. Verifica que la API KEY sea válida
-2. Algunas cuentas gratuitas tienen límite diario
-3. Puede tardar algunos minutos en activarse
+REEMPLAZA ESTO CON TU API KEY
 
 */
 
-const API_KEY = "db1537ad04e74bdc509c10231c09b19a";
+const API_KEY = "pub_4dac460ecf344979bee8f59bd9c04ca4";
 
 async function cargarNoticias(){
 
 try{
 
 const response = await fetch(
-`https://gnews.io/api/v4/search?q=futbol&lang=es&max=10&apikey=${API_KEY}`
+`https://newsdata.io/api/1/news?apikey=${API_KEY}&q=futbol&language=es`
 );
 
 const data = await response.json();
 
-const newsContainer = document.getElementById("news");
-const loading = document.getElementById("loading");
+document.getElementById("loading").style.display = "none";
 
-loading.style.display = "none";
+const news = document.getElementById("news");
 
-if(!data.articles){
+if(!data.results){
 
-newsContainer.innerHTML = `
-
+news.innerHTML = `
 <div class="error">
-
-<h2>
-❌ No se pudieron cargar noticias
-</h2>
-
-<p>
-Tu API puede haber alcanzado el límite gratuito
-o aún no está activada.
-</p>
-
+<h2>❌ Error cargando noticias</h2>
+<p>La API no respondió correctamente.</p>
 </div>
-
 `;
 
 return;
 
 }
 
-data.articles.forEach(article => {
+data.results.forEach(article => {
 
-newsContainer.innerHTML += `
+news.innerHTML += `
 
 <div class="news-card">
 
-<img src="${article.image || 'https://images.unsplash.com/photo-1508098682722-e99c643e7485?q=80&w=1200&auto=format&fit=crop'}">
+<img src="${article.image_url || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1200&auto=format&fit=crop'}">
 
 <div class="news-content">
 
 <div class="news-source">
-${article.source.name}
+${article.source_id || 'Fútbol'}
 </div>
 
 <h2>
@@ -445,16 +360,16 @@ ${article.title}
 </h2>
 
 <p>
-${article.description || 'Noticia deportiva internacional en tiempo real.'}
+${article.description || 'Noticias deportivas actualizadas.'}
 </p>
 
 <div class="news-footer">
 
 <div class="date">
-${new Date(article.publishedAt).toLocaleDateString()}
+${article.pubDate || ''}
 </div>
 
-<a class="btn" href="${article.url}" target="_blank">
+<a class="btn" href="${article.link}" target="_blank">
 Leer más
 </a>
 
@@ -477,11 +392,11 @@ document.getElementById("loading").innerHTML = `
 <div class="error">
 
 <h2>
-❌ Error conectando la API
+❌ Error conectando API
 </h2>
 
 <p>
-Posiblemente tu API KEY no funciona o el límite gratuito fue alcanzado.
+Verifica tu API KEY de NewsData.io
 </p>
 
 </div>
