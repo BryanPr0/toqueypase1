@@ -3,37 +3,369 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunidad</title>
-<link rel="stylesheet" href="style.css">
+<title>Comunidad | Toque & Pase</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#050816;color:white;display:flex;}
+.sidebar{width:260px;height:100vh;background:#0b1020;border-right:1px solid #1f2937;padding:25px;position:fixed;overflow-y:auto;}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+.logo-box{width:50px;height:50px;background:#00f5a0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;color:#000;}
+.logo-text h2{font-size:28px;color:#00f5a0;}
+.logo-text p{font-size:12px;color:#94a3b8;}
+.menu-title{margin:30px 0 15px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;text-decoration:none;color:#d1d5db;transition:0.3s;margin-bottom:8px;}
+.sidebar a:hover,.sidebar a.active{background:#00f5a015;color:#00f5a0;}
+.main{margin-left:260px;width:100%;padding:30px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+.search{width:350px;padding:14px 18px;background:#111827;border:1px solid #1f2937;border-radius:14px;outline:none;color:white;font-size:15px;}
+.avatar{width:45px;height:45px;border-radius:50%;background:#00f5a0;}
+.section-title{margin-bottom:8px;font-size:26px;}
+.subtitle{color:#6b7280;font-size:13px;margin-bottom:25px;}
+
+.comunidad-layout{display:grid;grid-template-columns:1fr 340px;gap:25px;}
+
+/* FORM NUEVO POST */
+.nuevo-post{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:25px;margin-bottom:25px;}
+.nuevo-post h3{margin-bottom:18px;font-size:18px;color:#00f5a0;}
+.form-row{margin-bottom:14px;}
+.form-row label{display:block;font-size:13px;color:#9ca3af;margin-bottom:6px;}
+.form-input{width:100%;padding:12px 16px;background:#0b1020;border:1px solid #1f2937;border-radius:12px;color:white;font-size:14px;outline:none;transition:0.3s;}
+.form-input:focus{border-color:#00f5a0;}
+.form-textarea{width:100%;padding:12px 16px;background:#0b1020;border:1px solid #1f2937;border-radius:12px;color:white;font-size:14px;outline:none;resize:vertical;min-height:100px;transition:0.3s;font-family:'Poppins',sans-serif;}
+.form-textarea:focus{border-color:#00f5a0;}
+.form-select{width:100%;padding:12px 16px;background:#0b1020;border:1px solid #1f2937;border-radius:12px;color:white;font-size:14px;outline:none;}
+.btn-publicar{width:100%;padding:14px;background:#00f5a0;color:#000;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:0.3s;}
+.btn-publicar:hover{background:#00d488;transform:translateY(-2px);}
+.btn-publicar:disabled{background:#1f2937;color:#6b7280;cursor:not-allowed;transform:none;}
+
+/* POSTS */
+.posts-lista{display:flex;flex-direction:column;gap:16px;}
+.post-card{background:#111827;border:1px solid #1f2937;border-radius:18px;padding:22px;transition:0.3s;}
+.post-card:hover{border-color:#00f5a030;}
+.post-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.post-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#00f5a0,#0066ff);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#000;flex-shrink:0;}
+.post-meta{flex:1;}
+.post-autor{font-weight:600;font-size:15px;}
+.post-info{font-size:12px;color:#6b7280;margin-top:2px;}
+.post-categoria{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;margin-left:8px;}
+.cat-champions{background:#1e3a5f;color:#60a5fa;}
+.cat-premier{background:#14532d;color:#4ade80;}
+.cat-laliga{background:#3b0764;color:#c084fc;}
+.cat-bundesliga{background:#451a03;color:#fb923c;}
+.cat-general{background:#1f2937;color:#9ca3af;}
+.cat-serie{background:#450a0a;color:#f87171;}
+
+.post-titulo{font-size:17px;font-weight:600;margin-bottom:8px;}
+.post-texto{color:#9ca3af;font-size:14px;line-height:1.6;}
+.post-footer{display:flex;align-items:center;gap:15px;margin-top:16px;padding-top:16px;border-top:1px solid #1f2937;}
+.btn-like{background:none;border:1px solid #1f2937;border-radius:8px;color:#9ca3af;padding:6px 14px;cursor:pointer;font-size:13px;transition:0.3s;display:flex;align-items:center;gap:6px;}
+.btn-like:hover,.btn-like.liked{border-color:#e63946;color:#e63946;}
+.btn-comentar{background:none;border:1px solid #1f2937;border-radius:8px;color:#9ca3af;padding:6px 14px;cursor:pointer;font-size:13px;transition:0.3s;}
+.btn-comentar:hover{border-color:#00f5a0;color:#00f5a0;}
+
+/* COMENTARIOS */
+.comentarios{margin-top:16px;display:none;border-top:1px solid #1f2937;padding-top:16px;}
+.comentarios.open{display:block;}
+.comentario{display:flex;gap:10px;margin-bottom:12px;}
+.com-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0066ff,#00f5a0);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;}
+.com-body{flex:1;background:#0b1020;border-radius:10px;padding:10px 14px;}
+.com-autor{font-size:12px;font-weight:600;color:#00f5a0;}
+.com-texto{font-size:13px;color:#d1d5db;margin-top:3px;}
+.com-form{display:flex;gap:10px;margin-top:12px;}
+.com-input{flex:1;padding:10px 14px;background:#0b1020;border:1px solid #1f2937;border-radius:10px;color:white;font-size:13px;outline:none;}
+.com-input:focus{border-color:#00f5a0;}
+.btn-com-send{padding:10px 18px;background:#00f5a0;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:13px;}
+
+/* SIDEBAR DERECHO */
+.side-panel{display:flex;flex-direction:column;gap:20px;}
+.panel-card{background:#111827;border:1px solid #1f2937;border-radius:18px;padding:22px;}
+.panel-title{font-size:16px;font-weight:600;margin-bottom:16px;color:#00f5a0;}
+.tema-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1f2937;}
+.tema-item:last-child{border-bottom:none;}
+.tema-nombre{font-size:14px;}
+.tema-num{font-size:13px;color:#6b7280;}
+.online-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px;}
+
+.loading-posts{color:#00f5a0;text-align:center;padding:30px;}
+.error-posts{color:#ff6b6b;text-align:center;padding:20px;}
+
+@media(max-width:1100px){.comunidad-layout{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .sidebar{width:100px;padding:15px;}
+  .logo-text,.menu-title,.sidebar a span{display:none;}
+  .main{margin-left:100px;padding:15px;}
+  .search{width:160px;}
+}
+</style>
 </head>
 <body>
 
 <div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
-
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
+  <div class="logo">
+    <div class="logo-box">⚽</div>
+    <div class="logo-text"><h2>Toque & Pase</h2><p>Fútbol en tiempo real</p></div>
+  </div>
+  <div class="menu-title">Principal</div>
+  <a href="index.html">🏠 <span>Inicio</span></a>
+  <a href="noticias.html">📰 <span>Noticias</span></a>
+  <a href="partidos.html">📅 <span>Partidos</span></a>
+  <a href="tabla.html">📊 <span>Tabla</span></a>
+  <a href="equipos.html">👥 <span>Equipos</span></a>
+  <a href="jugadores.html">⭐ <span>Jugadores</span></a>
+  <a href="historia.html">📖 <span>Historia</span></a>
+  <a class="active" href="comunidad.html">💬 <span>Comunidad</span></a>
 </div>
 
 <div class="main">
+  <div class="topbar">
+    <input class="search" type="text" placeholder="Buscar equipos, jugadores o ligas...">
+    <div class="avatar"></div>
+  </div>
 
-<h1>Comunidad</h1>
+  <h2 class="section-title">💬 Comunidad</h2>
+  <p class="subtitle">Debates, opiniones y análisis de la comunidad futbolera</p>
 
-<div class="card">
-<p>💬 Bienvenido al foro de fanáticos del fútbol.</p>
+  <div class="comunidad-layout">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div>
+      <!-- FORMULARIO NUEVO POST -->
+      <div class="nuevo-post">
+        <h3>✍️ Nuevo post</h3>
+        <div class="form-row">
+          <label>Tu nombre</label>
+          <input class="form-input" id="inp-nombre" type="text" placeholder="Ej: Carlos M.">
+        </div>
+        <div class="form-row">
+          <label>Categoría</label>
+          <select class="form-select" id="inp-categoria">
+            <option value="general">💬 General</option>
+            <option value="champions">🏆 Champions League</option>
+            <option value="premier">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
+            <option value="laliga">🇪🇸 La Liga</option>
+            <option value="bundesliga">🇩🇪 Bundesliga</option>
+            <option value="serie">🇮🇹 Serie A</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Título</label>
+          <input class="form-input" id="inp-titulo" type="text" placeholder="Ej: ¿Quién ganará la Champions?">
+        </div>
+        <div class="form-row">
+          <label>Mensaje</label>
+          <textarea class="form-textarea" id="inp-texto" placeholder="Escribe tu opinión..."></textarea>
+        </div>
+        <button class="btn-publicar" id="btn-publicar" onclick="publicarPost()">🚀 Publicar</button>
+      </div>
+
+      <!-- LISTA DE POSTS -->
+      <div id="posts-lista" class="posts-lista">
+        <p class="loading-posts">⏳ Cargando posts...</p>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="side-panel">
+
+      <div class="panel-card">
+        <div class="panel-title">🔥 Temas populares</div>
+        <div class="tema-item"><span class="tema-nombre">Champions League</span><span class="tema-num">148 posts</span></div>
+        <div class="tema-item"><span class="tema-nombre">Premier League</span><span class="tema-num">97 posts</span></div>
+        <div class="tema-item"><span class="tema-nombre">La Liga</span><span class="tema-num">85 posts</span></div>
+        <div class="tema-item"><span class="tema-nombre">Bundesliga</span><span class="tema-num">43 posts</span></div>
+        <div class="tema-item"><span class="tema-nombre">Serie A</span><span class="tema-num">39 posts</span></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">👥 Comunidad</div>
+        <div class="tema-item"><span><span class="online-dot"></span>Online ahora</span><span class="tema-num" id="online-count">...</span></div>
+        <div class="tema-item"><span>Total posts</span><span class="tema-num" id="total-posts">...</span></div>
+        <div class="tema-item"><span>Miembros</span><span class="tema-num">1,204</span></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">📋 Reglas</div>
+        <p style="color:#9ca3af;font-size:13px;line-height:1.8;">
+          ✅ Respeta a todos<br>
+          ✅ Solo temas de fútbol<br>
+          ✅ No spam ni publicidad<br>
+          ✅ Debates sanos y constructivos
+        </p>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<div class="card">
-<p>🔥 Debates sobre Champions League, Premier League y Libertadores.</p>
-</div>
+<script>
+const catClases = {
+  champions: "cat-champions",
+  premier: "cat-premier",
+  laliga: "cat-laliga",
+  bundesliga: "cat-bundesliga",
+  serie: "cat-serie",
+  general: "cat-general"
+};
 
-</div>
+const catNombres = {
+  champions: "🏆 Champions",
+  premier: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier",
+  laliga: "🇪🇸 La Liga",
+  bundesliga: "🇩🇪 Bundesliga",
+  serie: "🇮🇹 Serie A",
+  general: "💬 General"
+};
 
+function timeAgo(dateStr) {
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+  if (diff < 60) return "hace un momento";
+  if (diff < 3600) return `hace ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `hace ${Math.floor(diff/3600)} h`;
+  return `hace ${Math.floor(diff/86400)} días`;
+}
+
+function inicialAvatar(nombre) {
+  return nombre ? nombre.charAt(0).toUpperCase() : "?";
+}
+
+async function cargarPosts() {
+  const lista = document.getElementById("posts-lista");
+  try {
+    const res = await fetch("/api/comunidad");
+    if (!res.ok) throw new Error(`Error ${res.status}`);
+    const data = await res.json();
+    const posts = data.posts || [];
+
+    document.getElementById("total-posts").textContent = posts.length;
+    document.getElementById("online-count").textContent = Math.floor(Math.random() * 20) + 5;
+
+    if (posts.length === 0) {
+      lista.innerHTML = `<div style="text-align:center;padding:40px;color:#6b7280;">Sé el primero en publicar algo 🚀</div>`;
+      return;
+    }
+
+    lista.innerHTML = posts.map(post => `
+      <div class="post-card" id="post-${post.id}">
+        <div class="post-header">
+          <div class="post-avatar">${inicialAvatar(post.autor)}</div>
+          <div class="post-meta">
+            <div class="post-autor">${post.autor}
+              <span class="post-categoria ${catClases[post.categoria] || 'cat-general'}">${catNombres[post.categoria] || post.categoria}</span>
+            </div>
+            <div class="post-info">${timeAgo(post.fecha)}</div>
+          </div>
+        </div>
+        <div class="post-titulo">${post.titulo}</div>
+        <div class="post-texto">${post.texto}</div>
+        <div class="post-footer">
+          <button class="btn-like ${post.likes > 0 ? 'liked' : ''}" onclick="likePost('${post.id}', this)">
+            ❤️ ${post.likes || 0}
+          </button>
+          <button class="btn-comentar" onclick="toggleComentarios('${post.id}')">
+            💬 ${(post.comentarios || []).length} comentarios
+          </button>
+        </div>
+        <div class="comentarios" id="coms-${post.id}">
+          ${(post.comentarios || []).map(c => `
+            <div class="comentario">
+              <div class="com-avatar">${inicialAvatar(c.autor)}</div>
+              <div class="com-body">
+                <div class="com-autor">${c.autor} · <span style="color:#6b7280;font-weight:400;">${timeAgo(c.fecha)}</span></div>
+                <div class="com-texto">${c.texto}</div>
+              </div>
+            </div>
+          `).join("")}
+          <div class="com-form">
+            <input class="com-input" id="com-nombre-${post.id}" placeholder="Tu nombre">
+            <input class="com-input" id="com-texto-${post.id}" placeholder="Escribe un comentario...">
+            <button class="btn-com-send" onclick="enviarComentario('${post.id}')">➤</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+  } catch(e) {
+    lista.innerHTML = `<p class="error-posts">❌ Error cargando posts: ${e.message}</p>`;
+  }
+}
+
+function toggleComentarios(postId) {
+  const el = document.getElementById(`coms-${postId}`);
+  el.classList.toggle("open");
+}
+
+async function publicarPost() {
+  const nombre = document.getElementById("inp-nombre").value.trim();
+  const titulo = document.getElementById("inp-titulo").value.trim();
+  const texto = document.getElementById("inp-texto").value.trim();
+  const categoria = document.getElementById("inp-categoria").value;
+  const btn = document.getElementById("btn-publicar");
+
+  if (!nombre || !titulo || !texto) {
+    alert("Por favor completa todos los campos.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Publicando...";
+
+  try {
+    const res = await fetch("/api/comunidad", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accion: "post", nombre, titulo, texto, categoria })
+    });
+    if (!res.ok) throw new Error(`Error ${res.status}`);
+
+    document.getElementById("inp-nombre").value = "";
+    document.getElementById("inp-titulo").value = "";
+    document.getElementById("inp-texto").value = "";
+    await cargarPosts();
+
+  } catch(e) {
+    alert("Error al publicar: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🚀 Publicar";
+  }
+}
+
+async function likePost(postId, btn) {
+  try {
+    await fetch("/api/comunidad", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accion: "like", postId })
+    });
+    btn.classList.add("liked");
+    const num = parseInt(btn.textContent.replace(/\D/g, "")) + 1;
+    btn.textContent = `❤️ ${num}`;
+  } catch(e) {}
+}
+
+async function enviarComentario(postId) {
+  const nombre = document.getElementById(`com-nombre-${postId}`).value.trim();
+  const texto = document.getElementById(`com-texto-${postId}`).value.trim();
+  if (!nombre || !texto) return;
+
+  try {
+    const res = await fetch("/api/comunidad", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accion: "comentario", postId, nombre, texto })
+    });
+    if (!res.ok) throw new Error();
+    document.getElementById(`com-nombre-${postId}`).value = "";
+    document.getElementById(`com-texto-${postId}`).value = "";
+    await cargarPosts();
+    document.getElementById(`coms-${postId}`).classList.add("open");
+  } catch(e) {
+    alert("Error al comentar.");
+  }
+}
+
+cargarPosts();
+</script>
 </body>
 </html>
