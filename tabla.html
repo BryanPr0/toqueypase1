@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabla</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+<h2>⚽ Toque & Pase</h2>
+
+<a href="index.html">🏠 Inicio</a>
+<a href="noticias.html">📰 Noticias</a>
+<a href="partidos.html">📅 Partidos</a>
+<a href="tabla.html">📊 Tabla</a>
+<a href="equipos.html">👥 Equipos</a>
+<a href="jugadores.html">⭐ Jugadores</a>
+<a href="historia.html">📖 Historia</a>
+<a href="comunidad.html">💬 Comunidad</a>
+</div>
+
+<div class="main">
+
+<h1>Tabla de Posiciones</h1>
+
+<div id="table"></div>
+
+</div>
+
+<script>
+
+const API_KEY = "c1c9cfed0b354edca2ce6b220447352c";
+
+fetch("https://api.football-data.org/v4/competitions/PD/standings", {
+headers:{
+"X-Auth-Token": API_KEY
+}
+})
+.then(response => response.json())
+.then(data => {
+
+const table = document.getElementById("table");
+
+
+data.standings[0].table.forEach(team => {
+
+
+table.innerHTML += `
+
+<div class="card">
+<h2>${team.position}. ${team.team.name}</h2>
+<p>⭐ Puntos: ${team.points}</p>
+<p>⚽ Goles: ${team.goalsFor}</p>
+</div>
+
+`;
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
