@@ -8,7 +8,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#050816;color:white;display:flex;}
-
 .sidebar{width:260px;height:100vh;background:#0b1020;border-right:1px solid #1f2937;padding:25px;position:fixed;overflow-y:auto;}
 .logo{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
 .logo-box{width:50px;height:50px;background:#00f5a0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;color:#000;}
@@ -17,45 +16,64 @@ body{background:#050816;color:white;display:flex;}
 .menu-title{margin:30px 0 15px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
 .sidebar a{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;text-decoration:none;color:#d1d5db;transition:0.3s;margin-bottom:8px;}
 .sidebar a:hover,.sidebar a.active{background:#00f5a015;color:#00f5a0;}
-
 .main{margin-left:260px;width:100%;padding:30px;}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
 .search{width:350px;padding:14px 18px;background:#111827;border:1px solid #1f2937;border-radius:14px;outline:none;color:white;font-size:15px;}
-.user-box{display:flex;align-items:center;gap:15px;}
 .avatar{width:45px;height:45px;border-radius:50%;background:#00f5a0;}
-
-.section-title{margin-bottom:20px;font-size:26px;}
+.section-title{margin-bottom:8px;font-size:26px;}
+.subtitle{color:#6b7280;font-size:13px;margin-bottom:25px;}
 
 .match-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
 
-.match-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:25px;transition:0.3s;}
-.match-card:hover{transform:translateY(-5px);border-color:#00f5a0;}
+.match-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:22px;transition:0.3s;position:relative;}
+.match-card:hover{transform:translateY(-4px);border-color:#00f5a0;}
 
-.competition{color:#00f5a0;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:15px;}
+.match-card.live{border-color:#22c55e;box-shadow:0 0 20px #22c55e20;}
+.match-card.finished{opacity:0.75;}
 
-.teams{display:flex;justify-content:space-between;align-items:center;margin:15px 0;font-size:17px;font-weight:600;}
-.vs{color:#e63946;font-weight:700;}
+.competition{color:#00f5a0;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;}
 
-.fecha{color:#9ca3af;font-size:14px;margin-top:10px;}
+/* MARCADOR */
+.match-body{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.team{flex:1;text-align:center;}
+.team-name{font-size:14px;font-weight:600;line-height:1.3;}
+.score-box{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.score{font-size:36px;font-weight:700;min-width:36px;text-align:center;line-height:1;}
+.score.live-score{color:#00f5a0;}
+.score.finished-score{color:#e2e8f0;}
+.score-sep{font-size:28px;color:#4b5563;font-weight:300;}
+.score-pending{font-size:22px;color:#4b5563;font-weight:700;padding:0 8px;}
 
-.status{display:inline-block;margin-top:12px;padding:6px 14px;border-radius:10px;font-size:13px;font-weight:600;}
-.status.SCHEDULED{background:#1e3a5f;color:#60a5fa;}
-.status.LIVE{background:#14532d;color:#4ade80;animation:pulse 1.5s infinite;}
-.status.FINISHED{background:#1f2937;color:#9ca3af;}
-.status.IN_PLAY{background:#14532d;color:#4ade80;}
-.status.PAUSED{background:#451a03;color:#fb923c;}
-.status.POSTPONED{background:#3b0764;color:#c084fc;}
+.match-footer{margin-top:16px;display:flex;align-items:center;justify-content:space-between;}
+.fecha{color:#9ca3af;font-size:12px;}
 
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+/* STATUS BADGES */
+.badge{padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px;}
+.badge.LIVE, .badge.IN_PLAY{background:#14532d;color:#4ade80;}
+.badge.PAUSED{background:#451a03;color:#fb923c;}
+.badge.FINISHED{background:#1f2937;color:#9ca3af;}
+.badge.SCHEDULED{background:#1e3a5f;color:#60a5fa;}
+.badge.POSTPONED{background:#3b0764;color:#c084fc;}
+.badge.CANCELLED{background:#450a0a;color:#f87171;}
 
-.loading{color:#00f5a0;font-size:18px;padding:20px;}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+.live-min{font-size:11px;color:#4ade80;margin-left:4px;}
+
+.loading{color:#00f5a0;font-size:16px;padding:20px;grid-column:1/-1;}
 .error-card{color:#ff6b6b;}
+
+.refresh-bar{display:flex;align-items:center;gap:10px;margin-bottom:20px;color:#6b7280;font-size:13px;}
+.refresh-btn{padding:8px 16px;background:#111827;border:1px solid #1f2937;border-radius:10px;color:#00f5a0;cursor:pointer;font-size:13px;font-weight:600;transition:0.3s;}
+.refresh-btn:hover{background:#00f5a015;}
 
 @media(max-width:768px){
   .sidebar{width:100px;padding:15px;}
   .logo-text,.menu-title,.sidebar a span{display:none;}
-  .main{margin-left:100px;padding:20px;}
-  .search{width:180px;}
+  .main{margin-left:100px;padding:15px;}
+  .search{width:160px;}
+  .score{font-size:28px;}
 }
 </style>
 </head>
@@ -64,10 +82,7 @@ body{background:#050816;color:white;display:flex;}
 <div class="sidebar">
   <div class="logo">
     <div class="logo-box">⚽</div>
-    <div class="logo-text">
-      <h2>Toque & Pase</h2>
-      <p>Fútbol en tiempo real</p>
-    </div>
+    <div class="logo-text"><h2>Toque & Pase</h2><p>Fútbol en tiempo real</p></div>
   </div>
   <div class="menu-title">Principal</div>
   <a href="index.html">🏠 <span>Inicio</span></a>
@@ -81,62 +96,108 @@ body{background:#050816;color:white;display:flex;}
 </div>
 
 <div class="main">
-
   <div class="topbar">
     <input class="search" type="text" placeholder="Buscar equipos, jugadores o ligas...">
-    <div class="user-box">
-      <div class="avatar"></div>
-    </div>
+    <div class="avatar"></div>
   </div>
 
   <h2 class="section-title">📅 Partidos en Tiempo Real</h2>
+  <p class="subtitle" id="ultima-act">Actualizando...</p>
+
+  <div class="refresh-bar">
+    <button class="refresh-btn" onclick="cargarPartidos()">🔄 Actualizar ahora</button>
+    <span>Se actualiza automáticamente cada 60 segundos</span>
+  </div>
 
   <div id="matches" class="match-grid">
     <p class="loading">⏳ Cargando partidos...</p>
   </div>
-
 </div>
 
 <script>
-async function cargarPartidos(){
+function getScore(match) {
+  const s = match.score;
+  const status = match.status;
+
+  if (status === "SCHEDULED" || status === "TIMED") {
+    return `<span class="score-pending">VS</span>`;
+  }
+
+  const home = s?.fullTime?.home ?? s?.halfTime?.home ?? "-";
+  const away = s?.fullTime?.away ?? s?.halfTime?.away ?? "-";
+  const isLive = status === "IN_PLAY" || status === "PAUSED";
+  const cls = isLive ? "live-score" : "finished-score";
+
+  return `
+    <span class="score ${cls}">${home}</span>
+    <span class="score-sep">-</span>
+    <span class="score ${cls}">${away}</span>
+  `;
+}
+
+function getBadge(match) {
+  const status = match.status;
+  const min = match.minute;
+
+  if (status === "IN_PLAY") {
+    return `<span class="badge IN_PLAY"><span class="dot"></span> EN VIVO${min ? `<span class="live-min">${min}'</span>` : ''}</span>`;
+  }
+  if (status === "PAUSED") return `<span class="badge PAUSED">⏸ DESCANSO</span>`;
+  if (status === "FINISHED") return `<span class="badge FINISHED">✓ FINALIZADO</span>`;
+  if (status === "SCHEDULED" || status === "TIMED") return `<span class="badge SCHEDULED">🕐 PROGRAMADO</span>`;
+  if (status === "POSTPONED") return `<span class="badge POSTPONED">⚠ POSTERGADO</span>`;
+  if (status === "CANCELLED") return `<span class="badge CANCELLED">✕ CANCELADO</span>`;
+  return `<span class="badge SCHEDULED">${status}</span>`;
+}
+
+async function cargarPartidos() {
   const contenedor = document.getElementById("matches");
+  const actEl = document.getElementById("ultima-act");
+
   try {
     const response = await fetch("/api/partidos");
-
-    if(!response.ok){
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
+    if (!response.ok) throw new Error(`Error ${response.status}`);
     const data = await response.json();
 
-    if(!data.matches || data.matches.length === 0){
-      contenedor.innerHTML = `
-        <div class="match-card error-card">
-          <h3>Sin partidos disponibles</h3>
-          <p style="color:#9ca3af;margin-top:10px;">No hay partidos programados en este momento.</p>
-        </div>`;
+    if (!data.matches || data.matches.length === 0) {
+      contenedor.innerHTML = `<div class="match-card"><p>No hay partidos disponibles hoy.</p></div>`;
       return;
     }
 
-    contenedor.innerHTML = "";
-
-    data.matches.slice(0,12).forEach(match => {
-      const statusClass = match.status || "SCHEDULED";
-      contenedor.innerHTML += `
-        <div class="match-card">
-          <div class="competition">${match.competition.name}</div>
-          <div class="teams">
-            <span>${match.homeTeam.name}</span>
-            <span class="vs">VS</span>
-            <span>${match.awayTeam.name}</span>
-          </div>
-          <p class="fecha">📅 ${new Date(match.utcDate).toLocaleString("es-EC")}</p>
-          <div class="status ${statusClass}">${statusClass}</div>
-        </div>`;
+    // Ordenar: en vivo primero, luego por hora
+    const ordered = data.matches.sort((a, b) => {
+      const priority = { IN_PLAY: 0, PAUSED: 1, FINISHED: 2, SCHEDULED: 3, TIMED: 3 };
+      const pa = priority[a.status] ?? 4;
+      const pb = priority[b.status] ?? 4;
+      if (pa !== pb) return pa - pb;
+      return new Date(a.utcDate) - new Date(b.utcDate);
     });
 
-  } catch(error){
-    console.error(error);
+    contenedor.innerHTML = ordered.slice(0, 18).map(match => {
+      const isLive = match.status === "IN_PLAY" || match.status === "PAUSED";
+      const isFinished = match.status === "FINISHED";
+      const cardClass = isLive ? "live" : isFinished ? "finished" : "";
+
+      return `
+        <div class="match-card ${cardClass}">
+          <div class="competition">${match.competition.name}</div>
+          <div class="match-body">
+            <div class="team"><div class="team-name">${match.homeTeam.name}</div></div>
+            <div class="score-box">${getScore(match)}</div>
+            <div class="team"><div class="team-name">${match.awayTeam.name}</div></div>
+          </div>
+          <div class="match-footer">
+            <span class="fecha">📅 ${new Date(match.utcDate).toLocaleString("es-EC")}</span>
+            ${getBadge(match)}
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    const now = new Date().toLocaleTimeString("es-EC");
+    actEl.textContent = `Última actualización: ${now}`;
+
+  } catch (error) {
     contenedor.innerHTML = `
       <div class="match-card error-card">
         <h3>❌ Error conectando API</h3>
@@ -146,6 +207,8 @@ async function cargarPartidos(){
 }
 
 cargarPartidos();
+// Auto-refresh cada 60 segundos
+setInterval(cargarPartidos, 60000);
 </script>
 
 </body>
