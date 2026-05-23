@@ -1,41 +1,494 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inicio | Toque & Pase</title>
-<link rel="stylesheet" href="style.css">
+
+<title>Toque & Pase | Fútbol en Tiempo Real</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+height:100vh;
+background:#0b1020;
+border-right:1px solid #1f2937;
+padding:25px;
+position:fixed;
+overflow-y:auto;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+}
+
+.logo-box{
+width:50px;
+height:50px;
+background:#00f5a0;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:20px;
+color:#000;
+}
+
+.logo-text h2{
+font-size:28px;
+color:#00f5a0;
+}
+
+.logo-text p{
+font-size:12px;
+color:#94a3b8;
+}
+
+.menu-title{
+margin:30px 0 15px;
+font-size:13px;
+letter-spacing:1px;
+text-transform:uppercase;
+color:#6b7280;
+}
+
+.sidebar a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px;
+border-radius:12px;
+text-decoration:none;
+color:#d1d5db;
+transition:0.3s;
+margin-bottom:8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#00f5a015;
+color:#00f5a0;
+}
+
+/* MAIN */
+
+.main{
+margin-left:260px;
+width:100%;
+padding:30px;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.search{
+width:350px;
+padding:14px 18px;
+background:#111827;
+border:1px solid #1f2937;
+border-radius:14px;
+outline:none;
+color:white;
+font-size:15px;
+}
+
+.user-box{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#00f5a0;
+}
+
+/* HERO */
+
+.hero{
+background:linear-gradient(135deg,#111827,#0f172a);
+border:1px solid #1f2937;
+border-radius:25px;
+padding:40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+overflow:hidden;
+position:relative;
+}
+
+.hero::before{
+content:'';
+position:absolute;
+right:-50px;
+top:-50px;
+width:250px;
+height:250px;
+background:#00f5a010;
+border-radius:50%;
+}
+
+.hero-text{
+max-width:600px;
+z-index:2;
+}
+
+.hero-text h1{
+font-size:48px;
+line-height:1.1;
+margin-bottom:20px;
+}
+
+.hero-text p{
+color:#bfc7d5;
+font-size:17px;
+line-height:1.7;
+margin-bottom:30px;
+}
+
+.hero-buttons{
+display:flex;
+gap:15px;
+}
+
+.btn{
+padding:14px 24px;
+border-radius:14px;
+text-decoration:none;
+font-weight:600;
+transition:0.3s;
+}
+
+.btn-primary{
+background:#00f5a0;
+color:#000;
+}
+
+.btn-primary:hover{
+transform:translateY(-3px);
+}
+
+.btn-secondary{
+background:#1f2937;
+color:white;
+}
+
+.hero-image{
+z-index:2;
+}
+
+.hero-image img{
+width:340px;
+filter:drop-shadow(0 0 25px #00f5a060);
+}
+
+/* CARDS */
+
+.section-title{
+margin-bottom:20px;
+font-size:26px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.card{
+background:#111827;
+border:1px solid #1f2937;
+border-radius:20px;
+padding:25px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#00f5a0;
+}
+
+.card h3{
+margin-top:15px;
+margin-bottom:10px;
+font-size:22px;
+}
+
+.card p{
+color:#9ca3af;
+line-height:1.6;
+}
+
+.card-icon{
+font-size:40px;
+}
+
+/* MATCH CARD */
+
+.match{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:15px;
+padding:15px;
+background:#0b1220;
+border-radius:14px;
+}
+
+.match span{
+font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.hero{
+flex-direction:column;
+text-align:center;
+gap:30px;
+}
+
+.hero-text h1{
+font-size:38px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+width:100px;
+padding:15px;
+}
+
+.logo-text,
+.menu-title,
+.sidebar a span{
+display:none;
+}
+
+.main{
+margin-left:100px;
+padding:20px;
+}
+
+.search{
+width:180px;
+}
+
+.hero-text h1{
+font-size:32px;
+}
+
+.hero-image img{
+width:220px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
+<!-- SIDEBAR -->
 
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
+<div class="sidebar">
+
+<div class="logo">
+
+<div class="logo-box">
+⚽
 </div>
+
+<div class="logo-text">
+<h2>Toque & Pase</h2>
+<p>Fútbol en tiempo real</p>
+</div>
+
+</div>
+
+<div class="menu-title">
+Principal
+</div>
+
+<a class="active" href="index.html">
+🏠 <span>Inicio</span>
+</a>
+
+<a href="noticias.html">
+📰 <span>Noticias</span>
+</a>
+
+<a href="partidos.html">
+📅 <span>Partidos</span>
+</a>
+
+<a href="tabla.html">
+📊 <span>Tabla</span>
+</a>
+
+<a href="equipos.html">
+👥 <span>Equipos</span>
+</a>
+
+<a href="jugadores.html">
+⭐ <span>Jugadores</span>
+</a>
+
+<a href="historia.html">
+📖 <span>Historia</span>
+</a>
+
+<a href="comunidad.html">
+💬 <span>Comunidad</span>
+</a>
+
+</div>
+
+<!-- MAIN -->
 
 <div class="main">
 
-<h1>Bienvenido a Toque & Pase</h1>
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<input class="search" type="text" placeholder="Buscar equipos, jugadores o ligas...">
+
+<div class="user-box">
+<div class="avatar"></div>
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-text">
+
+<h1>
+Toda la pasión del fútbol
+en una sola plataforma
+</h1>
+
+<p>
+Sigue partidos en vivo, noticias internacionales,
+tablas de posiciones y estadísticas actualizadas
+en tiempo real con una experiencia moderna
+y profesional.
+</p>
+
+<div class="hero-buttons">
+
+<a href="partidos.html" class="btn btn-primary">
+Ver partidos
+</a>
+
+<a href="noticias.html" class="btn btn-secondary">
+Explorar noticias
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-image">
+
+<img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1200&auto=format&fit=crop" alt="Fútbol">
+
+</div>
+
+</div>
+
+<!-- DESTACADOS -->
+
+<h2 class="section-title">
+🔥 Destacados de Hoy
+</h2>
+
+<div class="cards">
 
 <div class="card">
-<h2>Portal deportivo en tiempo real</h2>
-<p>Noticias, partidos, tablas y estadísticas actualizadas automáticamente mediante APIs.</p>
+
+<div class="card-icon">
+🏆
+</div>
+
+<h3>Champions League</h3>
+
+<div class="match">
+<span>PSG</span>
+<span>VS</span>
+<span>Arsenal</span>
+</div>
+
 </div>
 
 <div class="card">
-<h2>Características</h2>
-<p>✅ Diseño responsivo</p>
-<p>✅ Navegación completa</p>
-<p>✅ APIs reales</p>
-<p>✅ Alta fidelidad</p>
+
+<div class="card-icon">
+⚡
+</div>
+
+<h3>Premier League</h3>
+
+<div class="match">
+<span>Liverpool</span>
+<span>VS</span>
+<span>City</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-icon">
+🌎
+</div>
+
+<h3>Libertadores</h3>
+
+<div class="match">
+<span>LDU</span>
+<span>VS</span>
+<span>Boca</span>
+</div>
+
+</div>
+
 </div>
 
 </div>
