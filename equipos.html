@@ -3,43 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Equipos</title>
-<link rel="stylesheet" href="style.css">
+<title>Equipos | Toque & Pase</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#050816;color:white;display:flex;}
+.sidebar{width:260px;height:100vh;background:#0b1020;border-right:1px solid #1f2937;padding:25px;position:fixed;overflow-y:auto;}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+.logo-box{width:50px;height:50px;background:#00f5a0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;color:#000;}
+.logo-text h2{font-size:28px;color:#00f5a0;}
+.logo-text p{font-size:12px;color:#94a3b8;}
+.menu-title{margin:30px 0 15px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;text-decoration:none;color:#d1d5db;transition:0.3s;margin-bottom:8px;}
+.sidebar a:hover,.sidebar a.active{background:#00f5a015;color:#00f5a0;}
+.main{margin-left:260px;width:100%;padding:30px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+.search{width:350px;padding:14px 18px;background:#111827;border:1px solid #1f2937;border-radius:14px;outline:none;color:white;font-size:15px;}
+.avatar{width:45px;height:45px;border-radius:50%;background:#00f5a0;}
+.section-title{margin-bottom:20px;font-size:26px;}
+
+.equipos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.equipo-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:30px;text-align:center;transition:0.3s;cursor:pointer;}
+.equipo-card:hover{transform:translateY(-5px);border-color:#00f5a0;}
+.escudo{width:80px;height:80px;object-fit:contain;margin-bottom:15px;filter:drop-shadow(0 0 10px #00f5a030);}
+.escudo-placeholder{width:80px;height:80px;background:#1f2937;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 15px;}
+.equipo-nombre{font-size:16px;font-weight:600;margin-bottom:5px;}
+.equipo-pais{color:#9ca3af;font-size:13px;}
+
+@media(max-width:768px){
+  .sidebar{width:100px;padding:15px;}
+  .logo-text,.menu-title,.sidebar a span{display:none;}
+  .main{margin-left:100px;padding:20px;}
+  .search{width:180px;}
+}
+</style>
 </head>
 <body>
 
 <div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
-
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
+  <div class="logo">
+    <div class="logo-box">⚽</div>
+    <div class="logo-text"><h2>Toque & Pase</h2><p>Fútbol en tiempo real</p></div>
+  </div>
+  <div class="menu-title">Principal</div>
+  <a href="index.html">🏠 <span>Inicio</span></a>
+  <a href="noticias.html">📰 <span>Noticias</span></a>
+  <a href="partidos.html">📅 <span>Partidos</span></a>
+  <a href="tabla.html">📊 <span>Tabla</span></a>
+  <a class="active" href="equipos.html">👥 <span>Equipos</span></a>
+  <a href="jugadores.html">⭐ <span>Jugadores</span></a>
+  <a href="historia.html">📖 <span>Historia</span></a>
+  <a href="comunidad.html">💬 <span>Comunidad</span></a>
 </div>
 
 <div class="main">
+  <div class="topbar">
+    <input class="search" type="text" placeholder="Buscar equipos, jugadores o ligas...">
+    <div class="avatar"></div>
+  </div>
 
-<h1>Equipos Destacados</h1>
+  <h2 class="section-title">👥 Equipos Destacados</h2>
 
-<div class="card">
-<h2>⚽ Real Madrid</h2>
-<p>España</p>
-</div>
+  <div class="equipos-grid">
 
-<div class="card">
-<h2>⚽ Barcelona</h2>
-<p>España</p>
-</div>
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/86.png" alt="Real Madrid" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Real Madrid</div>
+      <div class="equipo-pais">🇪🇸 España</div>
+    </div>
 
-<div class="card">
-<h2>⚽ Arsenal</h2>
-<p>Inglaterra</p>
-</div>
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/81.png" alt="Barcelona" onerror="this.style.display='none'">
+      <div class="equipo-nombre">FC Barcelona</div>
+      <div class="equipo-pais">🇪🇸 España</div>
+    </div>
 
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/57.png" alt="Arsenal" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Arsenal FC</div>
+      <div class="equipo-pais">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</div>
+    </div>
+
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/64.png" alt="Liverpool" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Liverpool FC</div>
+      <div class="equipo-pais">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</div>
+    </div>
+
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/5.png" alt="Bayern" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Bayern München</div>
+      <div class="equipo-pais">🇩🇪 Alemania</div>
+    </div>
+
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/524.png" alt="PSG" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Paris Saint-Germain</div>
+      <div class="equipo-pais">🇫🇷 Francia</div>
+    </div>
+
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/98.png" alt="Atletico" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Atlético de Madrid</div>
+      <div class="equipo-pais">🇪🇸 España</div>
+    </div>
+
+    <div class="equipo-card">
+      <img class="escudo" src="https://crests.football-data.org/65.png" alt="Man City" onerror="this.style.display='none'">
+      <div class="equipo-nombre">Manchester City</div>
+      <div class="equipo-pais">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</div>
+    </div>
+
+  </div>
 </div>
 
 </body>
