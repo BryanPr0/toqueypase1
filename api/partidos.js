@@ -8,7 +8,7 @@ export default async function handler(req, res) {
             "https://api.football-data.org/v4/matches",
             {
                 headers: {
-                    "X-Auth-Token": API_KEY
+                    "X-Auth-Token": c1c9cfed0b354edca2ce6b220447352c
                 }
             }
         );
