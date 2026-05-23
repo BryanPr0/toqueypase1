@@ -1,31 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noticias</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-<div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
+<p style="margin-top:10px;color:#9ca3af;">
+Noticias deportivas actualizadas automáticamente.
+</p>
 
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
+<div id="loading" class="loading">
+Cargando noticias...
 </div>
 
-<div class="main">
-
-<h1>Noticias Reales</h1>
-
-<div id="news"></div>
+<div id="news" class="news-grid"></div>
 
 </div>
 
@@ -33,31 +16,44 @@
 
 const API_KEY = "db1537ad04e74bdc509c10231c09b19a";
 
-fetch(`https://gnews.io/api/v4/search?q=futbol&lang=es&max=10&token=${API_KEY}`)
-.then(response => response.json())
-.then(data => {
+async function cargarNoticias(){
+
+try{
+
+const response = await fetch(`https://gnews.io/api/v4/search?q=futbol&lang=es&country=es&max=10&apikey=${API_KEY}`);
+
+const data = await response.json();
 
 const news = document.getElementById("news");
+const loading = document.getElementById("loading");
+
+loading.style.display = "none";
+
+if(!data.articles || data.articles.length === 0){
+news.innerHTML = `
+<div class="card">
+<h2>No se pudieron cargar noticias</h2>
+<p>Revisa tu API KEY de GNews.</p>
+</div>
+`;
+return;
+}
 
 
 data.articles.forEach(article => {
 
 news.innerHTML += `
 
-<div class="card">
+<div class="card news-card">
 
-<img src="${article.image}">
+<img src="${article.image || 'https://via.placeholder.com/600x300'}">
 
-<h2 style="margin-top:15px;">
-${article.title}
-</h2>
+<h2>${article.title}</h2>
 
-<p style="margin:15px 0;">
-${article.description}
-</p>
+<p>${article.description || 'Sin descripción disponible.'}</p>
 
-<a href="${article.url}" target="_blank" style="color:#00f5a0;">
-Leer noticia completa
+<a class="btn" href="${article.url}" target="_blank">
+Leer noticia
 </a>
 
 </div>
@@ -66,7 +62,22 @@ Leer noticia completa
 
 });
 
-});
+}catch(error){
+console.log(error);
+
+document.getElementById("loading").innerHTML = `
+❌ Error cargando noticias.<br><br>
+Posible problema:
+<ul>
+<li>API KEY inválida</li>
+<li>Límite de peticiones alcanzado</li>
+<li>Endpoint incorrecto</li>
+</ul>
+`;
+}
+}
+
+cargarNoticias();
 
 </script>
 
