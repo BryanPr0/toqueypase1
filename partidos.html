@@ -1,176 +1,152 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidos de Fútbol</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partidos | Toque & Pase</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#050816;color:white;display:flex;}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+.sidebar{width:260px;height:100vh;background:#0b1020;border-right:1px solid #1f2937;padding:25px;position:fixed;overflow-y:auto;}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+.logo-box{width:50px;height:50px;background:#00f5a0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;color:#000;}
+.logo-text h2{font-size:28px;color:#00f5a0;}
+.logo-text p{font-size:12px;color:#94a3b8;}
+.menu-title{margin:30px 0 15px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#6b7280;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;text-decoration:none;color:#d1d5db;transition:0.3s;margin-bottom:8px;}
+.sidebar a:hover,.sidebar a.active{background:#00f5a015;color:#00f5a0;}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            padding: 20px;
-        }
+.main{margin-left:260px;width:100%;padding:30px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+.search{width:350px;padding:14px 18px;background:#111827;border:1px solid #1f2937;border-radius:14px;outline:none;color:white;font-size:15px;}
+.user-box{display:flex;align-items:center;gap:15px;}
+.avatar{width:45px;height:45px;border-radius:50%;background:#00f5a0;}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #222;
-        }
+.section-title{margin-bottom:20px;font-size:26px;}
 
-        .contenedor {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-        }
+.match-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
 
-        .match-card {
-            background: white;
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 3px 10px rgba(0,0,0,.1);
-            transition: .3s;
-        }
+.match-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:25px;transition:0.3s;}
+.match-card:hover{transform:translateY(-5px);border-color:#00f5a0;}
 
-        .match-card:hover {
-            transform: translateY(-3px);
-        }
+.competition{color:#00f5a0;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:15px;}
 
-        .competition {
-            color: #1d4ed8;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
+.teams{display:flex;justify-content:space-between;align-items:center;margin:15px 0;font-size:17px;font-weight:600;}
+.vs{color:#e63946;font-weight:700;}
 
-        .teams {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+.fecha{color:#9ca3af;font-size:14px;margin-top:10px;}
 
-        .vs {
-            color: #e63946;
-        }
+.status{display:inline-block;margin-top:12px;padding:6px 14px;border-radius:10px;font-size:13px;font-weight:600;}
+.status.SCHEDULED{background:#1e3a5f;color:#60a5fa;}
+.status.LIVE{background:#14532d;color:#4ade80;animation:pulse 1.5s infinite;}
+.status.FINISHED{background:#1f2937;color:#9ca3af;}
+.status.IN_PLAY{background:#14532d;color:#4ade80;}
+.status.PAUSED{background:#451a03;color:#fb923c;}
+.status.POSTPONED{background:#3b0764;color:#c084fc;}
 
-        .status {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 10px;
-            background: #22c55e;
-            color: white;
-            border-radius: 6px;
-            font-size: 14px;
-        }
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
 
-        .loading,
-        .error {
-            text-align: center;
-            padding: 30px;
-            font-size: 18px;
-        }
+.loading{color:#00f5a0;font-size:18px;padding:20px;}
+.error-card{color:#ff6b6b;}
 
-        .error {
-            color: red;
-        }
-    </style>
+@media(max-width:768px){
+  .sidebar{width:100px;padding:15px;}
+  .logo-text,.menu-title,.sidebar a span{display:none;}
+  .main{margin-left:100px;padding:20px;}
+  .search{width:180px;}
+}
+</style>
 </head>
-
 <body>
 
-    <h1>⚽ Partidos de Fútbol</h1>
-
-    <div id="matches" class="contenedor">
-        <div class="loading">Cargando partidos...</div>
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-box">⚽</div>
+    <div class="logo-text">
+      <h2>Toque & Pase</h2>
+      <p>Fútbol en tiempo real</p>
     </div>
+  </div>
+  <div class="menu-title">Principal</div>
+  <a href="index.html">🏠 <span>Inicio</span></a>
+  <a href="noticias.html">📰 <span>Noticias</span></a>
+  <a class="active" href="partidos.html">📅 <span>Partidos</span></a>
+  <a href="tabla.html">📊 <span>Tabla</span></a>
+  <a href="equipos.html">👥 <span>Equipos</span></a>
+  <a href="jugadores.html">⭐ <span>Jugadores</span></a>
+  <a href="historia.html">📖 <span>Historia</span></a>
+  <a href="comunidad.html">💬 <span>Comunidad</span></a>
+</div>
 
-    <script>
-        async function cargarPartidos() {
+<div class="main">
 
-            const contenedor = document.getElementById("matches");
+  <div class="topbar">
+    <input class="search" type="text" placeholder="Buscar equipos, jugadores o ligas...">
+    <div class="user-box">
+      <div class="avatar"></div>
+    </div>
+  </div>
 
-            try {
+  <h2 class="section-title">📅 Partidos en Tiempo Real</h2>
 
-                // ✅ Llama a tu propio serverless function en Vercel
-                const response = await fetch("/api/partidos");
+  <div id="matches" class="match-grid">
+    <p class="loading">⏳ Cargando partidos...</p>
+  </div>
 
-                if (!response.ok) {
-                    throw new Error(
-                        `Error ${response.status}: ${response.statusText}`
-                    );
-                }
+</div>
 
-                const data = await response.json();
+<script>
+async function cargarPartidos(){
+  const contenedor = document.getElementById("matches");
+  try {
+    const response = await fetch("/api/partidos");
 
-                if (!data.matches || data.matches.length === 0) {
-                    contenedor.innerHTML = `
-                        <div class="error">
-                            No se encontraron partidos.
-                        </div>
-                    `;
-                    return;
-                }
+    if(!response.ok){
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
 
-                let html = "";
+    const data = await response.json();
 
-                data.matches.slice(0, 12).forEach(match => {
+    if(!data.matches || data.matches.length === 0){
+      contenedor.innerHTML = `
+        <div class="match-card error-card">
+          <h3>Sin partidos disponibles</h3>
+          <p style="color:#9ca3af;margin-top:10px;">No hay partidos programados en este momento.</p>
+        </div>`;
+      return;
+    }
 
-                    html += `
-                        <div class="match-card">
+    contenedor.innerHTML = "";
 
-                            <div class="competition">
-                                ${match.competition.name}
-                            </div>
+    data.matches.slice(0,12).forEach(match => {
+      const statusClass = match.status || "SCHEDULED";
+      contenedor.innerHTML += `
+        <div class="match-card">
+          <div class="competition">${match.competition.name}</div>
+          <div class="teams">
+            <span>${match.homeTeam.name}</span>
+            <span class="vs">VS</span>
+            <span>${match.awayTeam.name}</span>
+          </div>
+          <p class="fecha">📅 ${new Date(match.utcDate).toLocaleString("es-EC")}</p>
+          <div class="status ${statusClass}">${statusClass}</div>
+        </div>`;
+    });
 
-                            <div class="teams">
-                                <span>${match.homeTeam.name}</span>
+  } catch(error){
+    console.error(error);
+    contenedor.innerHTML = `
+      <div class="match-card error-card">
+        <h3>❌ Error conectando API</h3>
+        <p style="margin-top:10px;">${error.message}</p>
+      </div>`;
+  }
+}
 
-                                <span class="vs">VS</span>
-
-                                <span>${match.awayTeam.name}</span>
-                            </div>
-
-                            <p>
-                                📅 ${new Date(
-                                    match.utcDate
-                                ).toLocaleString("es-EC")}
-                            </p>
-
-                            <div class="status">
-                                ${match.status}
-                            </div>
-
-                        </div>
-                    `;
-                });
-
-                contenedor.innerHTML = html;
-
-            } catch (error) {
-
-                console.error(error);
-
-                contenedor.innerHTML = `
-                    <div class="error">
-                        ❌ Error al conectar con Football Data API
-                        <br><br>
-                        ${error.message}
-                    </div>
-                `;
-            }
-        }
-
-        cargarPartidos();
-    </script>
+cargarPartidos();
+</script>
 
 </body>
-
 </html>
