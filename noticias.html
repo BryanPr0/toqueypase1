@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noticias</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+<h2>⚽ Toque & Pase</h2>
+
+<a href="index.html">🏠 Inicio</a>
+<a href="noticias.html">📰 Noticias</a>
+<a href="partidos.html">📅 Partidos</a>
+<a href="tabla.html">📊 Tabla</a>
+<a href="equipos.html">👥 Equipos</a>
+<a href="jugadores.html">⭐ Jugadores</a>
+<a href="historia.html">📖 Historia</a>
+<a href="comunidad.html">💬 Comunidad</a>
+</div>
+
+<div class="main">
+
+<h1>Noticias Reales</h1>
+
+<div id="news"></div>
+
+</div>
+
+<script>
+
+const API_KEY = "db1537ad04e74bdc509c10231c09b19a";
+
+fetch(`https://gnews.io/api/v4/search?q=futbol&lang=es&max=10&token=${API_KEY}`)
+.then(response => response.json())
+.then(data => {
+
+const news = document.getElementById("news");
+
+
+data.articles.forEach(article => {
+
+news.innerHTML += `
+
+<div class="card">
+
+<img src="${article.image}">
+
+<h2 style="margin-top:15px;">
+${article.title}
+</h2>
+
+<p style="margin:15px 0;">
+${article.description}
+</p>
+
+<a href="${article.url}" target="_blank" style="color:#00f5a0;">
+Leer noticia completa
+</a>
+
+</div>
+
+`;
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
