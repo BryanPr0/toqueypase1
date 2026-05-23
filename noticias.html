@@ -1,12 +1,375 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
 
-<p style="margin-top:10px;color:#9ca3af;">
-Noticias deportivas actualizadas automáticamente.
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Noticias | Toque & Pase</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+height:100vh;
+background:#0b1020;
+border-right:1px solid #1f2937;
+padding:25px;
+position:fixed;
+overflow-y:auto;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+}
+
+.logo-box{
+width:50px;
+height:50px;
+background:#00f5a0;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:bold;
+color:black;
+}
+
+.logo-text h2{
+font-size:28px;
+color:#00f5a0;
+}
+
+.logo-text p{
+font-size:12px;
+color:#94a3b8;
+}
+
+.menu-title{
+margin:30px 0 15px;
+font-size:13px;
+letter-spacing:1px;
+text-transform:uppercase;
+color:#6b7280;
+}
+
+.sidebar a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px;
+border-radius:12px;
+text-decoration:none;
+color:#d1d5db;
+transition:0.3s;
+margin-bottom:8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#00f5a015;
+color:#00f5a0;
+}
+
+/* MAIN */
+
+.main{
+margin-left:260px;
+width:100%;
+padding:30px;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.search{
+width:350px;
+padding:14px 18px;
+background:#111827;
+border:1px solid #1f2937;
+border-radius:14px;
+outline:none;
+color:white;
+font-size:15px;
+}
+
+/* HEADER */
+
+.header{
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.header p{
+color:#94a3b8;
+font-size:17px;
+}
+
+/* NEWS GRID */
+
+.news-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:25px;
+}
+
+/* CARD */
+
+.news-card{
+background:#111827;
+border:1px solid #1f2937;
+border-radius:24px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.news-card:hover{
+transform:translateY(-6px);
+border-color:#00f5a0;
+}
+
+.news-card img{
+width:100%;
+height:230px;
+object-fit:cover;
+}
+
+.news-content{
+padding:22px;
+}
+
+.news-source{
+display:inline-block;
+padding:6px 12px;
+background:#00f5a015;
+color:#00f5a0;
+border-radius:20px;
+font-size:13px;
+margin-bottom:15px;
+}
+
+.news-content h2{
+font-size:24px;
+line-height:1.4;
+margin-bottom:15px;
+}
+
+.news-content p{
+color:#bfc7d5;
+line-height:1.7;
+margin-bottom:20px;
+}
+
+.news-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.date{
+color:#9ca3af;
+font-size:14px;
+}
+
+.btn{
+padding:12px 18px;
+background:#00f5a0;
+color:black;
+text-decoration:none;
+border-radius:12px;
+font-weight:600;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* LOADING */
+
+.loading{
+display:flex;
+justify-content:center;
+align-items:center;
+height:300px;
+font-size:22px;
+color:#00f5a0;
+}
+
+/* ERROR */
+
+.error{
+background:#111827;
+padding:30px;
+border-radius:20px;
+border:1px solid #ef4444;
+margin-top:20px;
+}
+
+.error h2{
+color:#ef4444;
+margin-bottom:15px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.sidebar{
+width:100px;
+padding:15px;
+}
+
+.logo-text,
+.menu-title,
+.sidebar a span{
+display:none;
+}
+
+.main{
+margin-left:100px;
+padding:20px;
+}
+
+.search{
+width:180px;
+}
+
+.header h1{
+font-size:32px;
+}
+
+.news-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<div class="logo-box">
+⚽
+</div>
+
+<div class="logo-text">
+<h2>Toque & Pase</h2>
+<p>Noticias deportivas</p>
+</div>
+
+</div>
+
+<div class="menu-title">
+Principal
+</div>
+
+<a href="index.html">
+🏠 <span>Inicio</span>
+</a>
+
+<a class="active" href="noticias.html">
+📰 <span>Noticias</span>
+</a>
+
+<a href="partidos.html">
+📅 <span>Partidos</span>
+</a>
+
+<a href="tabla.html">
+📊 <span>Tabla</span>
+</a>
+
+<a href="equipos.html">
+👥 <span>Equipos</span>
+</a>
+
+<a href="jugadores.html">
+⭐ <span>Jugadores</span>
+</a>
+
+<a href="historia.html">
+📖 <span>Historia</span>
+</a>
+
+<a href="comunidad.html">
+💬 <span>Comunidad</span>
+</a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<input class="search" type="text" placeholder="Buscar noticias deportivas...">
+
+</div>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>
+📰 Noticias de Fútbol
+</h1>
+
+<p>
+Últimas noticias deportivas actualizadas en tiempo real.
 </p>
+
+</div>
+
+<!-- LOADING -->
 
 <div id="loading" class="loading">
 Cargando noticias...
 </div>
+
+<!-- NEWS -->
 
 <div id="news" class="news-grid"></div>
 
@@ -14,47 +377,90 @@ Cargando noticias...
 
 <script>
 
+/*
+
+SI GNEWS FALLA:
+1. Verifica que la API KEY sea válida
+2. Algunas cuentas gratuitas tienen límite diario
+3. Puede tardar algunos minutos en activarse
+
+*/
+
 const API_KEY = "db1537ad04e74bdc509c10231c09b19a";
 
 async function cargarNoticias(){
 
 try{
 
-const response = await fetch(`https://gnews.io/api/v4/search?q=futbol&lang=es&country=es&max=10&apikey=${API_KEY}`);
+const response = await fetch(
+`https://gnews.io/api/v4/search?q=futbol&lang=es&max=10&apikey=${API_KEY}`
+);
 
 const data = await response.json();
 
-const news = document.getElementById("news");
+const newsContainer = document.getElementById("news");
 const loading = document.getElementById("loading");
 
 loading.style.display = "none";
 
-if(!data.articles || data.articles.length === 0){
-news.innerHTML = `
-<div class="card">
-<h2>No se pudieron cargar noticias</h2>
-<p>Revisa tu API KEY de GNews.</p>
-</div>
-`;
-return;
-}
+if(!data.articles){
 
+newsContainer.innerHTML = `
+
+<div class="error">
+
+<h2>
+❌ No se pudieron cargar noticias
+</h2>
+
+<p>
+Tu API puede haber alcanzado el límite gratuito
+o aún no está activada.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
 
 data.articles.forEach(article => {
 
-news.innerHTML += `
+newsContainer.innerHTML += `
 
-<div class="card news-card">
+<div class="news-card">
 
-<img src="${article.image || 'https://via.placeholder.com/600x300'}">
+<img src="${article.image || 'https://images.unsplash.com/photo-1508098682722-e99c643e7485?q=80&w=1200&auto=format&fit=crop'}">
 
-<h2>${article.title}</h2>
+<div class="news-content">
 
-<p>${article.description || 'Sin descripción disponible.'}</p>
+<div class="news-source">
+${article.source.name}
+</div>
+
+<h2>
+${article.title}
+</h2>
+
+<p>
+${article.description || 'Noticia deportiva internacional en tiempo real.'}
+</p>
+
+<div class="news-footer">
+
+<div class="date">
+${new Date(article.publishedAt).toLocaleDateString()}
+</div>
 
 <a class="btn" href="${article.url}" target="_blank">
-Leer noticia
+Leer más
 </a>
+
+</div>
+
+</div>
 
 </div>
 
@@ -63,18 +469,27 @@ Leer noticia
 });
 
 }catch(error){
+
 console.log(error);
 
 document.getElementById("loading").innerHTML = `
-❌ Error cargando noticias.<br><br>
-Posible problema:
-<ul>
-<li>API KEY inválida</li>
-<li>Límite de peticiones alcanzado</li>
-<li>Endpoint incorrecto</li>
-</ul>
+
+<div class="error">
+
+<h2>
+❌ Error conectando la API
+</h2>
+
+<p>
+Posiblemente tu API KEY no funciona o el límite gratuito fue alcanzado.
+</p>
+
+</div>
+
 `;
+
 }
+
 }
 
 cargarNoticias();
