@@ -1,63 +1,54 @@
 <!DOCTYPE html>
-<div class="sidebar">
-<h2>⚽ Toque & Pase</h2>
-
-<a href="index.html">🏠 Inicio</a>
-<a href="noticias.html">📰 Noticias</a>
-<a href="partidos.html">📅 Partidos</a>
-<a href="tabla.html">📊 Tabla</a>
-<a href="equipos.html">👥 Equipos</a>
-<a href="jugadores.html">⭐ Jugadores</a>
-<a href="historia.html">📖 Historia</a>
-<a href="comunidad.html">💬 Comunidad</a>
-</div>
-
-<div class="main">
-
-<h1>Partidos Reales</h1>
-
-<div id="matches"></div>
-
-</div>
-
 <script>
 
 const API_KEY = "c1c9cfed0b354edca2ce6b220447352c";
 
-fetch("https://api.football-data.org/v4/matches", {
+async function cargarPartidos(){
+
+try{
+
+const response = await fetch("https://api.football-data.org/v4/matches", {
 headers:{
 "X-Auth-Token": API_KEY
 }
-})
-.then(response => response.json())
-.then(data => {
+});
+
+const data = await response.json();
 
 const matches = document.getElementById("matches");
 
+if(!data.matches){
 
-data.matches.slice(0,10).forEach(match => {
+matches.innerHTML = `
+<div class="card">
+<h2>Error de API</h2>
+<p>No se pudieron cargar los partidos.</p>
+</div>
+`;
+
+return;
+}
+
+
+data.matches.slice(0,12).forEach(match => {
 
 matches.innerHTML += `
 
-<div class="card">
+<div class="card match-card">
 
-<h2>
-${match.homeTeam.name}
-vs
-${match.awayTeam.name}
-</h2>
+<h3>${match.competition.name}</h3>
 
-<p>
-📅 ${new Date(match.utcDate).toLocaleString()}
-</p>
+<div class="teams">
+<span>${match.homeTeam.name}</span>
+<span>VS</span>
+<span>${match.awayTeam.name}</span>
+</div>
 
-<p>
-🏆 ${match.competition.name}
-</p>
+<p>📅 ${new Date(match.utcDate).toLocaleString()}</p>
 
-<p>
-📌 Estado: ${match.status}
-</p>
+<div class="status">
+${match.status}
+</div>
 
 </div>
 
@@ -65,7 +56,19 @@ ${match.awayTeam.name}
 
 });
 
-});
+}catch(error){
+console.log(error);
+
+document.getElementById("matches").innerHTML = `
+<div class="card">
+<h2>Error conectando API</h2>
+<p>Tu API de Football Data puede haber excedido el límite gratis.</p>
+</div>
+`;
+}
+}
+
+cargarPartidos();
 
 </script>
 
